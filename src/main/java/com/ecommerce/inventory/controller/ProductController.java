@@ -28,10 +28,10 @@ public class ProductController {
         return new ResponseEntity<>(productResponse,HttpStatus.OK);
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<ProductResponse> getById(@PathVariable Long id) {
-//        return ResponseEntity.ok(productService.getById(id));
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> getById(@PathVariable Long id) throws ResourceNotFoundException {
+        return ResponseEntity.ok(productService.getById(id));
+    }
 
     @PostMapping
     public ResponseEntity<ProductResponse> create(

@@ -2,10 +2,10 @@ package com.ecommerce.inventory.entity;
 
 import com.ecommerce.inventory.UserEnum.UserStatus;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.Instant;
 import java.util.HashSet;
@@ -23,6 +23,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@ToString
 public class UserEntity {
 
     @Id
@@ -37,6 +38,9 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String token;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

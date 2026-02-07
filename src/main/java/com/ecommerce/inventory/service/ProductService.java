@@ -95,4 +95,9 @@ public class ProductService {
 
         return mapToResponse(updatedProduct);
     }
+
+    public @Nullable ProductResponse getById(Long id) throws ResourceNotFoundException {
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found with Id: "+id));
+        return mapToResponse(product);
+    }
 }

@@ -3,6 +3,8 @@ package com.ecommerce.inventory.config;
 import com.ecommerce.inventory.filters.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -25,6 +27,21 @@ public class SecurityConfig {
             throws Exception {
 
         return http
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((req, res, e) -> {
+                            res.setStatus(HttpStatus.UNAUTHORIZED.value());
+                            res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                            res.getWriter().write("""
+                  {"error":"Unauthorized"}
+              """);
+                        })
+                        .accessDeniedHandler((req, res, e) -> {
+                            res.setStatus(HttpStatus.FORBIDDEN.value());
+                            res.getWriter().write("""
+                  {"error":"Forbidden"}
+              """);
+                        })
+                )
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(s ->
                 s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
